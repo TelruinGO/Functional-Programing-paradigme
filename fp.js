@@ -27,19 +27,39 @@ const persons = [
      {"name":"Renee Wilson" , "age":29}
 ];
 
+//jeg missforsto nok oppgaven litt til å begynne med. Men jeg har begynt å oppdatere.
+
+function separate(array,type){
+    let temp =[];
+    for(let i=0 ; i < array.length ; i++){
+        temp[i]=array[i][type];
+    }
+    return temp
+}
+
+function reduce(array,mode,modifier){
+    let temp = 0;
+    switch (mode){
+        case "sum" :
+            while(array.length>1){
+                [temp,...array] = array;
+                array[0]=temp+array[0]
+            }return array[0]
+        case "count" :
+            for(let i = 0 ; array.length>i ; i++){
+                if(array[i]>modifier){
+                    array[i]=1;
+                } else{array[i]=0}
+            }return reduce(array,"sum")
+    }
+}
+
 // 1
 // Implement your own reduce function and count the number of people above the age of 50
 // You can read about a reduce function https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce 
 
-function over(all,current){
-    const test = all;
-    if(current.age>all){
-        current=1;
-    } else {current=0;}
-    return all+current;
-}
-
-const overAge = persons.reduce(over,50);
+//console.log(reduce(separate(persons,"age"),"count",50))   <-- for demonstrasjon
+reduce(separate(persons,"age"),"count",50);
 
 // 2
 // Implement your own forEach function and use it to greet all the people in the persons array (say Hi, persons name).
@@ -49,18 +69,6 @@ function greet(input){
     console.log(`Hi, ${input.name}`)
 };
 persons.forEach(greet);
-
-/* I have guessed that the key is that the second input will run over every part of an array.
-So you can ignore the other parts of reduce, in order to do what you want.
-
-function greetReduce(redundant,input){
-    console.log(`Hi, ${input.name}`)
-}
-persons.reduce(greetReduce,0);
-
-I could Map in a similar fashion.
-*/
-
 
 // 3
 // Implement your own map function and make everyone a year older.
